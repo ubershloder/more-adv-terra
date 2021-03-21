@@ -27,6 +27,15 @@ resource "aws_subnet" "pub_with_asg" {
   }
 }
 
+resource "aws_subnet" "pub_with_asg_forALB" {
+  availability_zone       = "eu-central-1c"
+  vpc_id                  = aws_vpc.terra.id
+  cidr_block              = "192.168.3.0/28"
+  map_public_ip_on_launch = true
+  tags = {
+    Name = "public subnet"
+  }
+}
 resource "aws_subnet" "private_sub_DB" {
   availability_zone       = "eu-central-1c"
   vpc_id                  = aws_vpc.terra.id
@@ -58,6 +67,7 @@ resource "aws_route_table_association" "rt-to-sub" {
   subnet_id      = aws_subnet.pub_with_asg.id
   route_table_id = aws_route_table.r.id
 }
+
 resource "aws_db_subnet_group" "forRDS" {
   name       = "rds-sub-grp"
   subnet_ids = [aws_subnet.private_sub_db.id, aws_subnet.private_sub_DB.id]

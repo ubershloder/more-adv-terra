@@ -15,7 +15,7 @@ resource "aws_instance" "test" {
     user        = "ec2-user"
     port        = 22
     agent       = true
-    private_key = file("/home/ubersholder/uber.pem")
+    private_key = file("~/uber.pem")
   }
   provisioner "remote-exec" {
     inline = [

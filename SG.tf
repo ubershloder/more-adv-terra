@@ -2,7 +2,6 @@ resource "aws_security_group" "pub_SG" {
   name        = "for ssh/http/mysql"
   description = "allow 22/80/3306 ports"
   vpc_id      = aws_vpc.terra.id
-
   ingress {
     description = "for ssh"
     from_port   = 22

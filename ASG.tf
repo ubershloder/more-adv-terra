@@ -9,6 +9,7 @@ resource "aws_placement_group" "asg-pg" {
 resource "aws_autoscaling_group" "asg" {
   availability_zones    = ["eu-central-1a"]
   name                  = "ASG-terra"
+  load_balancers        = [aws_elb.ELB.id]
   max_size              = 2
   health_check_grace_period = 1000
   health_check_type     = "ELB"
