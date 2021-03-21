@@ -19,7 +19,7 @@ inline = [
 
   network_interfaces {
     associate_public_ip_address = true
-   #### subnet_id                   = aws_subnet.pub_with_asg.id
+    subnet_id                   = aws_subnet.pub_with_asg.id
     delete_on_termination       = true
 } 
 }
