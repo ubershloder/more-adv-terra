@@ -8,12 +8,8 @@ resource "aws_launch_template" "LTforASG" {
   instance_initiated_shutdown_behavior = "terminate"
   instance_type                        = "t2.micro"
   key_name                             = "uber"
-#provisioner "remote-exec" {
-#inline = [
-#  "sudo yum -y install httpd",
-#  "sudo systemctl start httpd"
-#]
-#}
+
+  vpc_security_group_ids = [aws_security_group.pub_SG.id]
   image_id = aws_ami_from_instance.uberami.id
   network_interfaces {
     associate_public_ip_address = true
