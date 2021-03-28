@@ -3,6 +3,34 @@ resource "aws_security_group" "pub_SG" {
   description = "allow 22/80/3306 ports"
   vpc_id      = aws_vpc.terra.id
   ingress {
+    description = "for orchestator"
+    from_port   = 2377
+    to_port     = 2377
+    protocol    = "UDP"
+    cidr_blocks = [aws_vpc.terra.cidr_block]
+  }
+  egress {
+    description = "for orchestator"
+    from_port   = 2377
+    to_port     = 2377
+    protocol    = "UDP"
+    cidr_blocks = [aws_vpc.terra.cidr_block]
+  }
+  ingress {
+    description = "for orchestator"
+    from_port   = 2377
+    to_port     = 2377
+    protocol    = "TCP"
+    cidr_blocks = [aws_vpc.terra.cidr_block]
+  }
+  egress {
+    description = "for orchestator"
+    from_port   = 2377
+    to_port     = 2377
+    protocol    = "TCP"
+    cidr_blocks = [aws_vpc.terra.cidr_block]
+  }
+  ingress {
     description = "for ssh"
     from_port   = 22
     to_port     = 22

@@ -17,13 +17,16 @@ resource "aws_instance" "test" {
     agent       = true
     private_key = file("~/uber.pem")
   }
+  provisioner "file" {
+source = "/home/ubersholder/terraform/DB+EC2+ASG/setup.sh"
+destination = "/tmp/setup.sh"
+}
   provisioner "remote-exec" {
     inline = [
-      "sudo mkdir -p /efs",
-      "sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport ${aws_efs_mount_target.mount.ip_address}:/  /efs",
-      "sudo amazon-linux-extras install nginx1 -y",
-      "sudo systemctl start nginx",
-      "sudo systemctl enable nginx"
+  "sleep 30",
+  "sudo chmod +x /tmp/setup.sh",
+  "cd /tmp",
+  "./setup.sh"
     ]
   }
   tags = {
@@ -34,3 +37,4 @@ resource "aws_ami_from_instance" "uberami" {
   name               = "AMIforme"
   source_instance_id = aws_instance.test.id
 }
+
