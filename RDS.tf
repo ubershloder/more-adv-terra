@@ -16,11 +16,11 @@ resource "aws_db_instance" "RDS" {
   backup_retention_period = 0
   maintenance_window      = "Mon:00:00-Mon:03:00"
 
-  db_subnet_group_name = aws_db_subnet_group.forRDS.id
-  availability_zone    = "eu-central-1c"
+  db_subnet_group_name   = aws_db_subnet_group.forRDS.id
+  availability_zone      = "eu-central-1c"
   vpc_security_group_ids = [aws_security_group.DB_SG.id]
 
-  port                   = 3306
+  port = 3306
   tags = {
     Name = "DB instance "
   }

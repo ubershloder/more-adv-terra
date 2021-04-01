@@ -18,15 +18,15 @@ resource "aws_instance" "test" {
     private_key = file("~/uber.pem")
   }
   provisioner "file" {
-source = "/home/ubersholder/terraform/DB+EC2+ASG/setup.sh"
-destination = "/tmp/setup.sh"
-}
+    source      = "/home/ubersholder/terraform/DB+EC2+ASG/setup.sh"
+    destination = "/tmp/setup.sh"
+  }
   provisioner "remote-exec" {
     inline = [
-  "sleep 30",
-  "sudo chmod +x /tmp/setup.sh",
-  "cd /tmp",
-  "./setup.sh"
+      "sleep 30",
+      "sudo chmod +x /tmp/setup.sh",
+      "cd /tmp",
+      "./setup.sh"
     ]
   }
   tags = {
@@ -37,4 +37,3 @@ resource "aws_ami_from_instance" "uberami" {
   name               = "AMIforme"
   source_instance_id = aws_instance.test.id
 }
-

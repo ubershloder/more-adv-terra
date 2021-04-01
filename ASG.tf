@@ -7,14 +7,14 @@ resource "aws_placement_group" "asg-pg" {
 }
 
 resource "aws_autoscaling_group" "asg" {
-  availability_zones    = ["eu-central-1a"]
-  name                  = "ASG-terra"
-  load_balancers        = [aws_elb.ELB.id]
-  max_size              = 2
+  availability_zones        = ["eu-central-1a"]
+  name                      = "ASG-terra"
+  load_balancers            = [aws_elb.ELB.id]
+  max_size                  = 2
   health_check_grace_period = 1000
-  health_check_type     = "ELB"
-  min_size              = 1
-  placement_group       = aws_placement_group.asg-pg.id
+  health_check_type         = "ELB"
+  min_size                  = 1
+  placement_group           = aws_placement_group.asg-pg.id
   mixed_instances_policy {
     instances_distribution {
       on_demand_base_capacity = 2
@@ -22,7 +22,7 @@ resource "aws_autoscaling_group" "asg" {
     launch_template {
       launch_template_specification {
         launch_template_id = aws_launch_template.LTforASG.id
-        version = "$Latest"
+        version            = "$Latest"
       }
     }
   }
