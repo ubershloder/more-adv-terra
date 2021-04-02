@@ -1,7 +1,7 @@
 resource "aws_elb" "ELB" {
   name            = "ELB"
   security_groups = [aws_security_group.pub_SG.id]
-  subnets         = [aws_subnet.pub_with_asg.id, aws_subnet.pub_with_asg_forALB.id]
+  subnets         = [aws_subnet.pub_with_asg.id]
   listener {
     instance_port     = 80
     instance_protocol = "http"
@@ -13,20 +13,10 @@ resource "aws_elb" "ELB" {
   }
 }
 resource "aws_lb_target_group" "TG" {
-name = "TG-for-ASG" 
-port = 80 
-protocol = "HTTP"
-vpc_id = aws_vpc.terra.id
-}
-
-resource "aws_lb_listener" "http" {
-  load_balancer_arn = aws_elb.ELB.arn
-  port              = 80
-  protocol          = "HTTP"
-  default_action {
- target_group_arn = aws_lb_target_group.TG.id
-  type = "forward"
-}
+  name     = "TG-for-ASG"
+  port     = 80
+  protocol = "HTTP"
+  vpc_id   = aws_vpc.terra.id
 }
 
 resource "aws_lb_target_group" "asg" {
@@ -40,7 +30,15 @@ resource "aws_lb_target_group" "asg" {
     matcher             = "200"
     interval            = 60
     timeout             = 5
-    healthy_threshold    = 5
+    healthy_threshold   = 5
     unhealthy_threshold = 3
   }
+}
+resource "aws_elb_attachment" "attachment" {
+  elb      = aws_elb.ELB.id
+  instance = aws_instance.test.id
+}
+output "alb_dns_name" {
+  value       = aws_elb.ELB.dns_name
+  description = "Domain name of ELB"
 }
