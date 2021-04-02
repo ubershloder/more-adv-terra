@@ -6,7 +6,3 @@ sudo amazon-linux-extras install nginx1 -y
 sudo systemctl start nginx
 sudo systemctl enable nginx
 
-sudo yum install docker -y
-sudo systemctl enable docker
-sudo systemctl start docker
-
