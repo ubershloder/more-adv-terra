@@ -15,11 +15,8 @@ resource "aws_kms_key" "s3key" {
 
 resource "aws_s3_bucket" "terraform_state_files" {
   bucket = "terraform-state-by-uber"
-  lifecycle {
-    prevent_destroy = true
-  }
   versioning {
-    enabled = true
+    enabled = false
   }
   server_side_encryption_configuration {
     rule {
