@@ -7,7 +7,6 @@ terraform {
     encrypt         = true
   }
 }
-
 resource "aws_kms_key" "s3key" {
   description             = "Key to encrypt bucket obj"
   deletion_window_in_days = 10

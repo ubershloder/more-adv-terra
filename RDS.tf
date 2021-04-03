@@ -11,6 +11,7 @@ resource "aws_db_instance" "RDS" {
   name     = "terraform"
   username = "terraform"
   password = "terraform"
+#data.aws_secretsmanager_secret_version.RDS_pass.secret_string
 
   skip_final_snapshot     = true
   backup_retention_period = 0
@@ -25,5 +26,8 @@ resource "aws_db_instance" "RDS" {
     Name = "DB instance "
   }
 }
+#data "aws_secretsmanager_secret_version" "RDS_pass" {
+#  secret_id = "RDS-master-pass"
+#}
 
 
