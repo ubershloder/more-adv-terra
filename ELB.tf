@@ -38,7 +38,3 @@ resource "aws_elb_attachment" "attachment" {
   elb      = aws_elb.ELB.id
   instance = aws_instance.test.id
 }
-output "alb_dns_name" {
-  value       = aws_elb.ELB.dns_name
-  description = "Domain name of ELB"
-}

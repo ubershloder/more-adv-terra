@@ -11,7 +11,7 @@ resource "aws_db_instance" "RDS" {
   name     = "terraform"
   username = "terraform"
   password = "terraform"
-#data.aws_secretsmanager_secret_version.RDS_pass.secret_string
+  #data.aws_secretsmanager_secret_version.RDS_pass.secret_string
 
   skip_final_snapshot     = true
   backup_retention_period = 0
@@ -29,5 +29,12 @@ resource "aws_db_instance" "RDS" {
 #data "aws_secretsmanager_secret_version" "RDS_pass" {
 #  secret_id = "RDS-master-pass"
 #}
-
+#data "terraform_remote_state" "RDS" {
+#  backend = "s3"
+#  config = {
+#    bucket = "terraform-state-by-uber"
+#    key    = "state/data-stores/mysql/terraform.tfstate"
+#    region = "eu-central-1"
+#  }
+#}
 
