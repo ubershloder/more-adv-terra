@@ -10,7 +10,7 @@ resource "aws_db_instance" "RDS" {
   engine         = "mysql"
   engine_version = "8.0.20"
   instance_class = "db.t2.micro"
-  name     = "terraform"
+  name           = "terraform"
 
   username = var.username
   password = var.password
@@ -30,7 +30,7 @@ resource "aws_db_instance" "RDS" {
 }
 data "terraform_remote_state" "RDS" {
   backend = "s3"
- config = {
+  config = {
     bucket = "terraform-state-by-uber"
     key    = "global/s3/terraform.tfstate"
     region = "eu-central-1"
