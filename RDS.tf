@@ -10,10 +10,10 @@ resource "aws_db_instance" "RDS" {
   engine         = "mysql"
   engine_version = "8.0.20"
   instance_class = "db.t2.micro"
-
   name     = "terraform"
-  username = "terraform"
-  password = "terraform"
+
+  username = var.username
+  password = var.password
 
   skip_final_snapshot     = true
   backup_retention_period = 0
