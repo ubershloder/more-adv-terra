@@ -15,7 +15,7 @@ resource "aws_kms_key" "s3key" {
 resource "aws_s3_bucket" "terraform_state_files" {
   bucket = "terraform-state-by-uber"
   versioning {
-    enabled = false
+    enabled = true
   }
   server_side_encryption_configuration {
     rule {

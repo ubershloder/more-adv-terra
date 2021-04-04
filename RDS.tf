@@ -1,3 +1,6 @@
+#data "aws_secretsmanager_secret_version" "RDS_pass" {
+# secret_id = data.aws_secretsmanager_secret.uber.id
+#}
 resource "aws_db_instance" "RDS" {
 
   allocated_storage     = 8
@@ -11,7 +14,6 @@ resource "aws_db_instance" "RDS" {
   name     = "terraform"
   username = "terraform"
   password = "terraform"
-  #data.aws_secretsmanager_secret_version.RDS_pass.secret_string
 
   skip_final_snapshot     = true
   backup_retention_period = 0
@@ -26,15 +28,12 @@ resource "aws_db_instance" "RDS" {
     Name = "DB instance "
   }
 }
-#data "aws_secretsmanager_secret_version" "RDS_pass" {
-#  secret_id = "RDS-master-pass"
-#}
-#data "terraform_remote_state" "RDS" {
-#  backend = "s3"
-#  config = {
-#    bucket = "terraform-state-by-uber"
-#    key    = "state/data-stores/mysql/terraform.tfstate"
-#    region = "eu-central-1"
-#  }
-#}
+data "terraform_remote_state" "RDS" {
+  backend = "s3"
+ config = {
+    bucket = "terraform-state-by-uber"
+    key    = "global/s3/terraform.tfstate"
+    region = "eu-central-1"
+  }
+}
 
