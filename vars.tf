@@ -16,3 +16,13 @@ variable "orchestrator_port" {
   type        = string
   default     = "2377"
 }
+variable "all_cidr" {
+description = "allow connection from everywhere"
+type = string
+default = "0.0.0.0/0"
+}
+variable "asg_health" {
+description = "health check grace period"
+type = string
+default = 1000
+}

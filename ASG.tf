@@ -11,7 +11,7 @@ resource "aws_autoscaling_group" "asg" {
   name                      = "${var.cluster_name}ASG"
   load_balancers            = [aws_elb.ELB.id]
   max_size                  = 2
-  health_check_grace_period = 1000
+  health_check_grace_period = var.asg_health
   health_check_type         = "ELB"
   min_size                  = 1
   placement_group           = aws_placement_group.asg-pg.id
