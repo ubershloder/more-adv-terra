@@ -4,40 +4,28 @@ resource "aws_security_group" "pub_SG" {
   vpc_id      = aws_vpc.terra.id
   ingress {
     description = "for orchestator"
-    from_port   = 2377
-    to_port     = 2377
+    from_port   = var.orchestrator_port
+    to_port     = var.orchestrator_port
     protocol    = "UDP"
     cidr_blocks = [aws_vpc.terra.cidr_block]
   }
-  egress {
-    description = "for orchestator"
-    from_port   = 2377
-    to_port     = 2377
-    protocol    = "UDP"
-    cidr_blocks = [aws_vpc.terra.cidr_block]
+  dynamic "ingress" {
+    for_each = ["22", "80", "443", "2377", "3306"]
+    content {
+      from_port   = ingress.key
+      to_port     = ingress.key
+      cidr_blocks = ["0.0.0.0/0"]
+      protocol    = "TCP"
+    }
   }
   ingress {
     description = "for orchestator"
-    from_port   = 2377
-    to_port     = 2377
-    protocol    = "TCP"
-    cidr_blocks = [aws_vpc.terra.cidr_block]
-  }
-  egress {
-    description = "for orchestator"
-    from_port   = 2377
-    to_port     = 2377
+    from_port   = var.orchestrator_port
+    to_port     = var.orchestrator_port
     protocol    = "TCP"
     cidr_blocks = [aws_vpc.terra.cidr_block]
   }
   ingress {
-    description = "for ssh"
-    from_port   = 22
-    to_port     = 22
-    protocol    = "TCP"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  egress {
     description = "for ssh"
     from_port   = 22
     to_port     = 22
@@ -51,21 +39,7 @@ resource "aws_security_group" "pub_SG" {
     protocol    = "TCP"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  egress {
-    description = "for http"
-    from_port   = 80
-    to_port     = 80
-    protocol    = "TCP"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
   ingress {
-    description = "for db"
-    from_port   = 3306
-    to_port     = 3306
-    protocol    = "TCP"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  egress {
     description = "for db"
     from_port   = 3306
     to_port     = 3306
@@ -81,9 +55,9 @@ resource "aws_security_group" "pub_SG" {
   }
   egress {
     description = "for db"
-    from_port   = 3306
-    to_port     = 3306
-    protocol    = "UDP"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
   ingress {
