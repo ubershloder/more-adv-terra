@@ -26,16 +26,16 @@ resource "aws_autoscaling_group" "asg" {
       }
     }
   }
- tags = [
-      {
+  tags = [
+    {
       key                 = "Name"
       value               = "ASG_instance"
       propagate_at_launch = true
-       },
-      {
+    },
+    {
       key                 = "Role"
       value               = "nginx for now"
       propagate_at_launch = true
-      }
-    ]
+    }
+  ]
 }

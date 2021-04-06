@@ -1,79 +1,30 @@
 resource "aws_security_group" "pub_SG" {
-  
-  name        = "for ssh/http/mysql"
-  description = "allow 22/80/3306 ports"
-  
-  vpc_id      = aws_vpc.terra.id
-  
-  ingress {
-    description = "for orchestator"
-    from_port   = var.orchestrator_port
-    to_port     = var.orchestrator_port
-    protocol    = "UDP"
-    cidr_blocks = [aws_vpc.terra.cidr_block]
+
+  name        = "for EC2"
+  description = "allow needed ports"
+
+  vpc_id = aws_vpc.terra.id
+
+  dynamic "ingress" {
+    for_each = ["22", "80", "443", "3306"]
+    content {
+      from_port   = ingress.value
+      to_port     = ingress.value
+      protocol    = "tcp"
+      cidr_blocks = [var.all_cidr]
+    }
   }
-#  dynamic "ingress" {
-#    for_each = ["22", "80", "443", "2377", "3306"]
-#    content {
-#      from_port   = ingress.key
-#      to_port     = ingress.key
-#      cidr_blocks = [var.all_cidr]
-#      protocol    = "TCP"
-#    }
-#  }
   ingress {
-    description = "for orchestator"
-    from_port   = var.orchestrator_port
-    to_port     = var.orchestrator_port
+    from_port   = 2049
+    to_port     = 2049
     protocol    = "TCP"
     cidr_blocks = [aws_vpc.terra.cidr_block]
-  }
-  ingress {
-    description = "for ssh"
-    from_port   = 22
-    to_port     = 22
-    protocol    = "TCP"
-    cidr_blocks = [var.all_cidr]
-  }
-  ingress {
-    description = "for http"
-    from_port   = 80
-    to_port     = 80
-    protocol    = "TCP"
-    cidr_blocks = [var.all_cidr]
-  }
-  ingress {
-    description = "for db"
-    from_port   = 3306
-    to_port     = 3306
-    protocol    = "TCP"
-    cidr_blocks = [var.all_cidr]
-  }
-  ingress {
-    description = "for db"
-    from_port   = 3306
-    to_port     = 3306
-    protocol    = "UDP"
-    cidr_blocks = [var.all_cidr]
   }
   egress {
-    description = "for db"
     from_port   = 0
     to_port     = 0
-    protocol    = "-1"
+    protocol    = -1
     cidr_blocks = [var.all_cidr]
-  }
-  ingress {
-    from_port   = 2049
-    to_port     = 2049
-    protocol    = "TCP"
-    cidr_blocks = [aws_vpc.terra.cidr_block]
-  }
-  egress {
-    from_port   = 2049
-    to_port     = 2049
-    protocol    = "TCP"
-    cidr_blocks = [aws_vpc.terra.cidr_block]
   }
   tags = {
     Name = "for instance"
@@ -81,7 +32,7 @@ resource "aws_security_group" "pub_SG" {
 }
 resource "aws_security_group" "DB_SG" {
   name        = "for database"
-  description = "allow 22/80/3306 ports"
+  description = "DB port"
   vpc_id      = aws_vpc.terra.id
   ingress {
     description = "db out"
