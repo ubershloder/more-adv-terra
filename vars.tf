@@ -1,14 +1,14 @@
 variable "username" {
-description = "db_username"
-type = string
-sensitive = true
-default = "terraform"
+  description = "db_username"
+  type        = string
+  sensitive   = true
+  default     = "terraform"
 }
 variable "password" {
-description = "db_password"
-type = string
-sensitive = true
-default = "terraform"
+  description = "db_password"
+  type        = string
+  sensitive   = true
+  default     = "terraform"
 }
 
 variable "cluster_name" {
