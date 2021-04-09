@@ -1,5 +1,20 @@
+data "aws_ami" "latest-amazon-linux-image" {
+  most_recent = true
+  owners      = ["amazon"]
+  filter {
+    name   = "name"
+    values = ["amzn2-ami-hvm-*-x86_64-gp2"]
+  }
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+}
+output "aws_ami_id" {
+  value = data.aws_ami.latest-amazon-linux-image.id
+}
 resource "aws_instance" "test" {
-  ami                         = "ami-0de9f803fcac87f46"
+  ami                         = data.aws_ami.latest-amazon-linux-image.id
   instance_type               = "t2.micro"
   subnet_id                   = aws_subnet.pub_with_asg.id
   vpc_security_group_ids      = [aws_security_group.pub_SG.id]
