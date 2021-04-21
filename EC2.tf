@@ -13,7 +13,7 @@ data "aws_ami" "latest-amazon-linux-image" {
 output "aws_ami_id" {
   value = data.aws_ami.latest-amazon-linux-image.id
 }
-resource "aws_instance" "test" {
+resource "aws_instance" "uber" {
   ami                         = data.aws_ami.latest-amazon-linux-image.id
   instance_type               = "t2.micro"
   subnet_id                   = aws_subnet.pub_with_asg.id
@@ -26,11 +26,12 @@ resource "aws_instance" "test" {
   ]
   connection {
     type        = "ssh"
-    host        = aws_instance.test.public_ip
+    host        = aws_instance.uber.public_ip
     user        = "ec2-user"
     port        = 22
     agent       = true
     private_key = file("~/uber.pem")
+### provide your key in the way u like and if changing os change user in connection below ###
   }
   provisioner "file" {
     source      = "/home/ubersholder/terraform/DB+EC2+ASG/setup.sh"
@@ -50,5 +51,5 @@ resource "aws_instance" "test" {
 }
 resource "aws_ami_from_instance" "uberami" {
   name               = "AMIforme"
-  source_instance_id = aws_instance.test.id
+  source_instance_id = aws_instance.uber.id
 }
