@@ -33,7 +33,7 @@ resource "aws_lb_target_group" "asg" {
     healthy_threshold   = 5
     unhealthy_threshold = 3
   }
-}
+
 resource "aws_elb_attachment" "attachment" {
   elb      = aws_elb.ELB.id
   instance = aws_instance.test.id
