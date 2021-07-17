@@ -9,7 +9,7 @@ resource "aws_elb" "ELB" {
     lb_protocol       = "http"
   }
   tags = {
-    Name = "testing"
+    Name = "test"
   }
 }
 resource "aws_lb_target_group" "TG" {
