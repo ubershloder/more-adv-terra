@@ -62,9 +62,9 @@ resource "aws_security_group" "for_efs" {
   }
   egress {
     description = "EFS out"
-    from_port   = 2049
-    to_port     = 2049
-    protocol    = "TCP"
+    from_port   = 0
+    to_port     = 0
+    protocol    = -1
     cidr_blocks = [aws_vpc.terra.cidr_block]
   }
 }
